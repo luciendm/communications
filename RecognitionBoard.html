@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+/* ===== ROOT COLORS ===== */
+:root {
+    --primary-bg: #f4f7f9;
+    --header-color: #2c3e50;
+    --accent-blue: #cfe9ff;
+    --accent-green: #dff9e0;
+    --accent-purple: #f5e6ff;
+    --accent-gold: #fffbe0;
+    --text-main: #34495e;
+    --card-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* ===== BODY ===== */
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: var(--primary-bg);
+    color: var(--text-main);
+    margin: 0;
+    padding: 25px;
+}
+
+/* ===== MAIN CARD ===== */
+.background-card {
+    max-width: 1100px;
+    margin: auto;
+    padding: 25px;
+    background: linear-gradient(180deg, #ffffff 0%, #eef2f7 100%);
+    border-radius: 20px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+/* ===== HEADER ===== */
+.header-section {
+    text-align: center;
+    padding: 25px;
+    margin-bottom: 25px;
+    background: linear-gradient(135deg, #a8d5ff, #d0f0ff);
+    border-radius: 15px;
+}
+
+.header-section h1 {
+    margin: 0 0 10px 0;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.subtitle {
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+/* ===== INTRO ===== */
+.intro-blurb {
+    background: #fff9db;
+    padding: 18px;
+    border-radius: 12px;
+    border-left: 6px solid #fcc419;
+    margin-bottom: 30px;
+    font-size: 15px;
+}
+
+/* ===== SECTION TITLES ===== */
+h2 {
+    text-align: center;
+    margin-bottom: 18px;
+    color: var(--header-color);
+}
+
+/* ===== THEMES GRID ===== */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 15px;
+    margin-bottom: 35px;
+}
+
+.card {
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+    transition: transform .2s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+}
+
+.blue { background: var(--accent-blue); }
+.green { background: var(--accent-green); }
+.purple { background: var(--accent-purple); }
+.gold { background: var(--accent-gold); }
+
+.topic-title {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.names {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* ===== CONTRIBUTORS ===== */
+.contributors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.contributor-card {
+    background: white;
+    padding: 18px;
+    border-radius: 15px;
+    box-shadow: var(--card-shadow);
+    text-align: center;
+}
+
+.contributor-name {
+    display: inline-block;
+    margin: 5px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #e3f2fd;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    text-align: center;
+    background: #f1f3f5;
+    padding: 18px;
+    border-radius: 15px;
+    font-size: 14px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background-card">
+
+    <!-- HEADER -->
+    <div class="header-section">
+        <h1>Process Improvement Recognition Board</h1>
+        <div class="subtitle">
+            <strong>Building Better Together:</strong> Highlighting the Help Desk contributions that are helping to drive Ask ACE accuracy.
+        </div>
+    </div>
+
+    <!-- INTRO -->
+    <div class="intro-blurb">
+        To the MRR Team: Thank you for your dedication! By guiding ERS agents through Ask ACE and providing corrections and existing policy enhancements, <strong>you</strong> are helping us improve this tool’s accuracy and expand its capabilities for the entire team.
+    </div>
+
+    <!-- THEMES -->
+    <h2>Top Themes This Week</h2>
+    <div class="grid">
+
+        <div class="card blue">
+            <div class="topic-title">🚛 Policy & Service Complexity</div>
+            <div class="names">
+                Commercial / Heavy / RV & Dually<br>
+                Extrication & Winter Conditions
+            </div>
+        </div>
+
+        <div class="card green">
+            <div class="topic-title">⚡ Coverage & Warranty</div>
+            <div class="names">
+                Battery & Warranty
+            </div>
+        </div>
+
+        <div class="card purple">
+            <div class="topic-title">🆔 Membership & Systems</div>
+            <div class="names">
+                Membership Status & Systems
+            </div>
+        </div>
+
+        <div class="card gold">
+            <div class="topic-title">🧾 Billing & Usage</div>
+            <div class="names">
+                Service Charge / Early Use / Billing
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CONTRIBUTORS -->
+    <h2>Top Weekly Contributors</h2>
+    <div class="contributors-grid">
+
+        <div class="contributor-card">
+            <div class="contributor-name">👤 Allen, Kim</div>
+            <div class="contributor-name">👤 Coleman, Porscha</div>
+            <div class="contributor-name">👤 Ronquillo, Jacklyn</div>
+            <div class="contributor-name">👤 Sample, Rosalind</div>
+        </div>
+
+        <div class="contributor-card">
+            <div class="contributor-name">👤 Arana, Lydia</div>
+            <div class="contributor-name">👤 Mercado, Rocio</div>
+            <div class="contributor-name">👤 Tyree, Kia</div>
+            <div class="contributor-name">👤 Brookins, Tyra</div>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        Your expertise and thoughtful feedback are helping make the Ask ACE Policy Tool more accurate and valuable for everyone.
+    </div>
+
+</div>
+
+</body>
+</html>
