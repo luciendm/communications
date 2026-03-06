@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AAA Battery Service Program Knowledge Check</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- html2canvas for certificate download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #0056d6;
+      --primary-light: #4b8cff;
+      --accent: #ffb300;
+      --correct-bg: #e6f7e9;
+      --correct-border: #2e7d32;
+      --incorrect-bg: #fdecea;
+      --incorrect-border: #c62828;
+      --card-bg: #ffffff;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: radial-gradient(circle at top left, #e0edff, #fdfbff);
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+      color: #222;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #555;
+      margin-bottom: 25px;
+      font-size: 0.95rem;
+    }
+
+    .quiz-container {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 24px 22px 26px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .start-screen, #quiz { text-align:left; }
+    .hidden { display: none; }
+    .button-primary, .button-ghost { cursor:pointer; border:none; }
+    .button-primary { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color:#fff; padding:10px 20px; border-radius:999px; font-weight:600; }
+    .button-ghost { background:transparent; color:var(--primary); border:1px solid rgba(0,86,214,0.5); padding:8px 16px; border-radius:999px; font-weight:600; }
+    .options { margin:20px 0; text-align:left; }
+    .option { margin:6px 0; display:flex; align-items:flex-start; gap:8px; cursor:pointer; padding:8px 10px; border-radius:10px; border:1px solid transparent; }
+    .option:hover { background:#f4f7ff; border-color:rgba(0,86,214,0.16); }
+    .feedback { margin-top:10px; padding:10px 11px; border-radius:10px; font-size:0.9rem; display:none; position:relative; padding-left:32px; }
+    .feedback.correct { background: var(--correct-bg); border-left:4px solid var(--correct-border); }
+    .feedback.incorrect { background: var(--incorrect-bg); border-left:4px solid var(--incorrect-border); }
+    .progress-bar-wrapper { width:100%; background:#eef0ff; border-radius:999px; height:14px; overflow:hidden; margin-bottom:18px; }
+    .progress-bar { height:100%; width:0%; background:linear-gradient(90deg,#00c9a7,#ffc107,#ff4081); background-size:200% 100%; transition: width 0.35s ease; }
+    .navigation { display:flex; justify-content:space-between; margin-top:18px; }
+    .score-summary { margin-top:20px; padding:15px; background:#f4f6ff; border-radius:14px; display:none; }
+    .reference { font-size:0.82rem; color:#6b7280; text-align:center; margin-top:18px; }
+  </style>
+</head>
+
+<body>
+  <h1>AAA Battery Service</h1>
+  <div class="subtitle">Jumpstarts ⚡ • Warranty 🔋 • Membership Rules 🧾</div>
+
+  <div class="quiz-container">
+
+<div id="start-screen" style="text-align: center;"> 
+  <div style="margin-bottom:10px; font-weight:600;">🎓 BSP Knowledge Check</div>
+  <div style="font-size:1.2rem; font-weight:600; margin-bottom:8px;">Ready for a quick pit stop on BSP policy?</div>
+  <p>You’ll see <strong>10 short questions</strong> about jumpstarts, AAA batteries, and warranty rules. Answer one question at a time and get instant feedback.</p>
+  <button id="start-btn" class="button-primary">🚀 Start Quiz</button>
+</div>
+
+    <!-- Quiz Screen -->
+    <div id="quiz" class="hidden">
+      <div class="progress-bar-wrapper"><div class="progress-bar" id="progress-bar"></div></div>
+      <div id="question-header">
+        <div id="question-number" style="font-weight:600;margin-bottom:6px;color:#555;"></div>
+        <div id="question-text" style="font-size:1.04rem; font-weight:600; color:#1f2933; margin-bottom:16px;"></div>
+      </div>
+      <div class="options" id="options-container"></div>
+      <div class="feedback" id="feedback"></div>
+      <div class="navigation">
+        <!-- switched buttons -->
+        <button id="submit-btn" class="button-primary">✅ Submit Answer</button>
+        <button id="next-btn" class="button-ghost" disabled>Next Question ➡️</button>
+      </div>
+    </div>
+
+    <!-- Score Screen -->
+    <div class="score-summary" id="score-summary"></div>
+
+  </div>
+
+  <div class="reference">Reference: Jumpstart - Battery Service Program</div>
+
+  <script>
+    const quizData = [
+      {question:"1) What is the free replacement warranty for AAA batteries purchased after December 31, 2022?", options:["1 year","2 years","3 years","6 years"], correctIndex:2, explanationCorrect:"Great job! AAA BSP batteries usually include a 3-year free replacement warranty period.", explanationIncorrect:"Nice try. Correct answer is 3 years."},
+      {question:"2) True/False: The AAA battery warranty transferable between household members?", options:["True","False"], correctIndex:1, explanationCorrect:"Correct! Warranty is not transferable.", explanationIncorrect:"Incorrect. Warranty stays with original member."},
+      {question:"3) Which of the following is eligible for roadside warranty?", options:["Non-member at NAPA","Cancelled member","Valid AAA member w/ NAPA purchase","Any AAA battery"], correctIndex:2, explanationCorrect:"Correct! Valid AAA member with NAPA purchase is eligible.", explanationIncorrect:"Incorrect. Correct: Valid AAA member with NAPA purchase."},
+      {question:"4) Does AAA accept third-party battery test results for batteries under warranty?", options:["Yes","No"], correctIndex:1, explanationCorrect:"Correct. AAA requires its own BSP/AAR testing.", explanationIncorrect:"Incorrect. AAA must perform its own battery testing."},
+      {question:"5) Which of the following is NOT eligible for a jumpstart?", options:["Passenger car","U-Haul","Motorcycle Classic member","Boat on trailer"], correctIndex:3, explanationCorrect:"Correct! Boats on trailers are not eligible.", explanationIncorrect:"Incorrect. Correct: Boat on trailer."},
+      {question:"6) Does BSP charge Labor fees for difficult installations?", options:["Never apply","Fees may apply for difficult installs; member is responsible for payment","Always free","Only if non-member"], correctIndex:1, explanationCorrect:"Correct! Complex installations can have labor fees.", explanationIncorrect:"Incorrect. Correct: May apply, member responsible."},
+      {question:"7) Do AAA battery purchases at roadside count against the call allotment?", options:["True","False"], correctIndex:0, explanationCorrect:"Correct! It counts against annual calls.", explanationIncorrect:"Incorrect. Correct: True."},
+      {question:"8) BSP can service which battery in EV/Hybrid vehicles?", options:["Main HV battery","Portable jump packs","12/16-volt battery","None"], correctIndex:2, explanationCorrect:"Correct! BSP assists 12/16-volt battery.", explanationIncorrect:"Incorrect. Correct: 12/16-volt battery."},
+      {question:"9) Can members schedule appointments for jumpstarts or AAA battery installations?", options:["Yes","No"], correctIndex:0, explanationCorrect:"Correct! Appointments are available.", explanationIncorrect:"Incorrect. Correct: Yes."},
+      {question:"10) What is the warranty solution for former members with warranty requests?", options:["Full service","Rejoin or BSP/AAR","Warranty void","Transfer"], correctIndex:1, explanationCorrect:"Correct! Refer to BSP/AAR or rejoin.", explanationIncorrect:"Incorrect. Correct: Rejoin or BSP/AAR."}
+    ];
+
+    let currentQuestion = 0, score = 0, questionResults = [];
+    const startScreenEl=document.getElementById('start-screen');
+    const startBtn=document.getElementById('start-btn');
+    const quizEl=document.getElementById('quiz');
+    const questionNumberEl=document.getElementById('question-number');
+    const questionTextEl=document.getElementById('question-text');
+    const optionsContainer=document.getElementById('options-container');
+    const feedbackEl=document.getElementById('feedback');
+    const submitBtn=document.getElementById('submit-btn');
+    const nextBtn=document.getElementById('next-btn');
+    const scoreSummaryEl=document.getElementById('score-summary');
+    const progressBarEl=document.getElementById('progress-bar');
+
+    startBtn.addEventListener('click',()=>{
+      startScreenEl.classList.add('hidden');
+      quizEl.classList.remove('hidden');
+      currentQuestion=0; score=0; questionResults=[];
+      scoreSummaryEl.style.display='none';
+      loadQuestion();
+    });
+
+    function loadQuestion(){
+      const q=quizData[currentQuestion];
+      questionNumberEl.textContent=`Question ${currentQuestion+1} of ${quizData.length}`;
+      questionTextEl.textContent=q.question;
+      optionsContainer.innerHTML='';
+      feedbackEl.style.display='none';
+      feedbackEl.className='feedback';
+      submitBtn.disabled=false; nextBtn.disabled=true;
+
+      const progressPercent=(currentQuestion/quizData.length)*100;
+      progressBarEl.style.width=progressPercent+'%';
+
+      q.options.forEach((opt,index)=>{
+        const label=document.createElement('label'); label.className='option';
+        const input=document.createElement('input'); input.type='radio'; input.name='option'; input.value=index;
+        const span=document.createElement('span'); span.textContent=opt;
+        label.appendChild(input); label.appendChild(span);
+        optionsContainer.appendChild(label);
+      });
+    }
+
+    function getSelectedOptionIndex(){
+      const radios=document.querySelectorAll('input[name="option"]');
+      for(let i=0;i<radios.length;i++){if(radios[i].checked) return parseInt(radios[i].value);}
+      return null;
+    }
+
+    submitBtn.addEventListener('click',()=>{
+      const selectedIndex=getSelectedOptionIndex();
+      if(selectedIndex===null){alert('Please select an answer.'); return;}
+      const q=quizData[currentQuestion];
+      const isCorrect=selectedIndex===q.correctIndex;
+      if(isCorrect){score++; questionResults[currentQuestion]={status:'Correct', feedback:q.explanationCorrect}; feedbackEl.textContent=q.explanationCorrect; feedbackEl.classList.add('correct');}
+      else {questionResults[currentQuestion]={status:'Incorrect', feedback:q.explanationIncorrect, correctAnswer:q.options[q.correctIndex]}; feedbackEl.textContent=q.explanationIncorrect; feedbackEl.classList.add('incorrect');}
+      feedbackEl.style.display='block';
+      submitBtn.disabled=true; nextBtn.disabled=false;
+    });
+
+    nextBtn.addEventListener('click',()=>{
+      currentQuestion++;
+      if(currentQuestion<quizData.length){loadQuestion();} else {showScoreSummary();}
+    });
+
+    function showScoreSummary(){
+      quizEl.classList.add('hidden'); scoreSummaryEl.style.display='block';
+      const percent=Math.round((score/quizData.length)*100);
+
+      // Confetti for 80%+
+      if (percent >= 80) {
+        confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#00c9a7','#ffc107','#ff4081','#0056d6','#4b8cff'],
+            ticks: 200,
+            gravity: 0.6
+        });
+        const interval = setInterval(() => {
+            confetti({
+                particleCount: 100,
+                spread: 60,
+                origin: { y: 0.6 },
+                colors: ['#00c9a7','#ffc107','#ff4081','#0056d6','#4b8cff'],
+                ticks: 200,
+                gravity: 0.6
+            });
+        }, 300);
+        setTimeout(() => clearInterval(interval), 2000);
+      }
+
+      let passFail,badge;
+      if(percent>=80){passFail="PASS"; badge="🏆 BSP Certified";} else {passFail="Review Recommended"; badge="📘 Review & Try Again";}
+      let encouragement=percent===100?"Perfect score! ⭐":percent>=80?"Awesome work! 💪":percent>=60?"Nice job! 📘":"Good start! 🔄";
+      const now=new Date(); const timestamp=now.toLocaleString();
+
+      const certificate = `
+<div style="position:relative;display:flex;align-items:flex-start;">
+  <div id="certificate" style="margin-bottom:25px;padding:30px;border:8px solid #0056d6;border-radius:24px;background: linear-gradient(to bottom, #f0f8ff, #e6f7ff);text-align:center;box-shadow:0 0 20px rgba(0,0,0,0.15);font-family:'Georgia', serif;position:relative">
+      <div style="width:100%;height:120px;background: url('https://luciendm.github.io/communications/AAA Club Assist.jpg') no-repeat center center;background-size:120px 120px;margin:0 auto 20px auto;border-radius:50%;box-shadow:0 0 15px rgba(0,0,0,0.2);"></div>
+      <h1 style="margin:10px 0; font-size:2rem; color:#0056d6;">Completion Certificate</h1>
+      <p style="font-size:1.1rem; margin:6px 0;">This certifies successful completion of the</p>
+      <strong style="font-size:1.2rem; color:#222;">AAA Battery Service Program Quiz</strong>
+      <p style="margin-top:15px; font-size:1.1rem;">Final Score: <strong>${percent}%</strong></p>
+      <p style="font-size:0.95rem; color:#555; margin-top:10px;">Internal Knowledge Certification</p>
+      <p style="font-size:0.9rem; color:#555; margin-top:2px;">Completed on: ${timestamp}</p>
+      <div style="margin-top:20px;padding:10px 20px;border-radius:999px;background: linear-gradient(90deg,#00c9a7,#ffc107,#ff4081);color:#fff;font-weight:bold;display:inline-block;font-size:1rem;box-shadow:0 4px 10px rgba(0,0,0,0.1);cursor:pointer;" onclick="downloadCertificate()">📥 Download Certificate</div>
+  </div>
+  <div style="margin-left:15px;align-self:flex-start;margin-top:50px;">
+    <button class="button-ghost" onclick="window.location.href='https://aceclubnet.sharepoint.com/sites/CMS/SitePages/TrainingHome.aspx'">🏠 Return to Learning Home</button>
+  </div>
+</div>
+`;
+
+      const incorrectSummary = quizData.map((q,i)=>{
+        if(questionResults[i].status==='Incorrect'){
+          return `<div style="margin-top:10px;"><strong>Q${i+1}:</strong> ${q.question}<br>
+                  <strong>Correct Answer:</strong> ${questionResults[i].correctAnswer}<br>
+                  <strong>Feedback:</strong> ${questionResults[i].feedback}</div>`;
+        }
+        return '';
+      }).join('');
+
+      scoreSummaryEl.innerHTML=`${certificate}
+      <div style="font-weight:bold;font-size:22px;margin-top:5px;">${score}/${quizData.length} (${percent}%)</div>
+      <div style="margin-top:10px;font-size:18px;font-weight:bold;">${badge}</div>
+      <div style="margin-top:8px;padding:6px 14px;border-radius:20px;background:${percent>=80?'#d4edda':'#fdecea'};color:${percent>=80?'#155724':'#a94442'};font-weight:bold;">${passFail}</div>
+      <div style="margin-top:15px;">${incorrectSummary}</div>
+      <div style="margin-top:10px;">${encouragement}</div>
+      <br><button class="button-primary" onclick="location.reload()">🔁 Retake Quiz</button>`;
+      progressBarEl.style.width='100%';
+
+      // SEND SCORE TO SHAREPOINT
+      sendScoreToSharePoint("USERNAME_PLACEHOLDER", score, percent, passFail);
+    }
+
+    function downloadCertificate(){
+      const certEl=document.getElementById('certificate'); if(!certEl){alert('Certificate not found.'); return;}
+      html2canvas(certEl).then(canvas=>{
+        const link=document.createElement('a');
+        link.download=`BSP_Certificate_${new Date().toISOString().split('T')[0]}.png`;
+        link.href=canvas.toDataURL('image/png'); link.click();
+      });
+    }
+
+    // SEND SCORE FUNCTION
+    function sendScoreToSharePoint(user, score, percent, result){
+      const payload = {
+        Title: user,
+        score: score,
+        percent: percent,
+        result: result,
+        timestamp: new Date().toISOString()
+      };
+
+      fetch("https://defaultd5f618ff295149048f7e999c2dd97a.b2.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/9a3c7a7dd09e464495be7a99e2e45454/triggers/manual/paths/invoke?api-version=1", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+      .then(res => {
+        if(res.ok) console.log("Score sent successfully!");
+        else console.error("Error sending score", res.statusText);
+      })
+      .catch(err => console.error(err));
+    }
+  </script>
+
+  <!-- Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</body>
+</html>
