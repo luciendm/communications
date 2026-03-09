@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mindful Service: The Empathy Advantage (Pastel Theme)</title>
+  <style>
+    :root{
+      --bg1:#7dd3fc; --bg2:#c4b5fd; --bg3:#86efac;
+      --text:#0f172a; --muted:#475569;
+      --accent:#fde68a; --accent2:#fb7185;
+      --good:#16a34a; --warn:#d97706; --bad:#e11d48;
+      --shadow: 0 10px 26px rgba(15,23,42,.10);
+      --radius: 18px;
+      --ring: 0 0 0 3px rgba(125,211,252,.35);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:var(--sans); color:var(--text);
+      background: radial-gradient(900px 600px at 10% 10%, rgba(125,211,252,.22), transparent 55%),
+                  radial-gradient(900px 600px at 90% 0%, rgba(196,181,253,.20), transparent 55%),
+                  radial-gradient(900px 600px at 80% 90%, rgba(134,239,172,.18), transparent 60%),
+                  linear-gradient(135deg, #ffffff, #f1f5ff 45%, #f8fafc);
+      min-height:100vh;
+    }
+    header{
+      position:sticky; top:0; z-index:20;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(to bottom, rgba(248,250,252,.92), rgba(248,250,252,.72));
+      border-bottom: 1px solid rgba(15,23,42,.10);
+    }
+    .wrap{max-width:1100px; margin:0 auto; padding: 14px 18px;}
+    .topbar{display:flex; gap:14px; align-items:center; justify-content:space-between; flex-wrap:wrap;}
+    .brand{display:flex; gap:12px; align-items:center}
+    .logo{
+      width:42px; height:42px; border-radius:14px;
+      background: conic-gradient(from 210deg, var(--bg1), var(--bg2), var(--bg3), var(--accent), var(--bg1));
+      box-shadow: 0 10px 20px rgba(15,23,42,.12);
+      display:grid; place-items:center;
+      border: 1px solid rgba(15,23,42,.10);
+    }
+    .logo span{font-weight:900; font-size:18px; color:#0f172a; background:#fff; padding:5px 8px; border-radius:12px}
+    h1{font-size:16px; margin:0; letter-spacing:.2px}
+    .sub{font-size:12px; color:var(--muted); margin:2px 0 0}
+
+    .progressRow{display:flex; gap:10px; align-items:center; width:min(620px, 100%);}
+    .bar{flex:1; height:12px; background: rgba(15,23,42,.08); border-radius:999px; overflow:hidden; border:1px solid rgba(15,23,42,.10)}
+    .fill{height:100%; width:0%; background: linear-gradient(90deg, var(--bg1), var(--bg2), var(--accent)); border-radius:999px; transition: width .35s ease;}
+    .pct{font-family:var(--mono); font-size:12px; color:var(--muted)}
+
+    main{padding: 18px 0 42px;}
+    .grid{display:grid; grid-template-columns: 290px 1fr; gap:18px; align-items:start;}
+    @media (max-width: 900px){.grid{grid-template-columns:1fr;}}
+
+    .side{position:sticky; top:86px;}
+    @media (max-width: 900px){.side{position:relative; top:auto;}}
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.84));
+      border: 1px solid rgba(15,23,42,.10);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .pad{padding:16px}
+    .tag{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 8px 10px; border-radius:999px;
+      background: rgba(196,181,253,.18);
+      border:1px solid rgba(196,181,253,.30);
+      color:#3730a3; font-size:12px; font-weight:700;
+    }
+    .nav{display:flex; flex-direction:column; gap:8px; margin-top:12px;}
+    .nav button{
+      text-align:left; width:100%;
+      padding: 10px 12px; border-radius: 14px;
+      background: rgba(15,23,42,.04);
+      border: 1px solid rgba(15,23,42,.10);
+      color: var(--text);
+      cursor:pointer;
+      transition: transform .08s ease, background .15s ease, border-color .15s ease;
+    }
+    .nav button:hover{background: rgba(15,23,42,.06)}
+    .nav button:active{transform: translateY(1px)}
+    .nav button[aria-current="true"]{background: rgba(125,211,252,.20); border-color: rgba(125,211,252,.38); box-shadow: var(--ring)}
+    .nav button.locked{opacity:.55; cursor:not-allowed}
+    .mini{font-size:12px; color:var(--muted); margin-top:10px; line-height:1.35}
+
+    .content .head{
+      display:flex; justify-content:space-between; gap:12px; align-items:flex-start; flex-wrap:wrap;
+      padding: 18px 18px 10px;
+      background: linear-gradient(90deg, rgba(125,211,252,.14), rgba(196,181,253,.12), rgba(134,239,172,.10));
+      border-bottom: 1px solid rgba(15,23,42,.10);
+    }
+    .content h2{margin:0; font-size:20px}
+    .content .kicker{margin:6px 0 0; color:var(--muted); font-size:13px; max-width:70ch}
+
+    .section{padding: 18px; display:grid; gap:14px}
+
+    .pillRow{display:flex; flex-wrap:wrap; gap:8px}
+    .pill{
+      padding: 8px 10px; border-radius:999px;
+      border:1px solid rgba(15,23,42,.10);
+      background: rgba(15,23,42,.03);
+      font-size:12px; color:var(--muted)
+    }
+
+    .panel{border:1px solid rgba(15,23,42,.10); background: rgba(255,255,255,.88); border-radius:16px; padding:14px;}
+    .panel h3{margin:0 0 10px; font-size:15px}
+    .list{margin:0; padding-left:18px; color:var(--text); line-height:1.5}
+    .list li{margin:6px 0}
+
+    .twocol{display:grid; grid-template-columns: 1fr 1fr; gap:12px}
+    @media (max-width: 900px){.twocol{grid-template-columns:1fr}}
+
+    .callout{
+      padding:14px; border-radius:16px;
+      background: linear-gradient(135deg, rgba(196,181,253,.18), rgba(125,211,252,.12));
+      border:1px solid rgba(196,181,253,.28);
+    }
+    .callout strong{color:#3730a3}
+
+    .choiceGrid{display:grid; grid-template-columns: repeat(3, 1fr); gap:10px}
+    @media (max-width: 900px){.choiceGrid{grid-template-columns:1fr}}
+    .choice{
+      border:1px solid rgba(15,23,42,.10);
+      background: rgba(15,23,42,.03);
+      border-radius:16px;
+      padding:12px;
+      cursor:pointer;
+      transition: transform .08s ease, background .15s ease, border-color .15s ease;
+      text-align:left;
+    }
+    .choice:hover{background: rgba(15,23,42,.05)}
+    .choice:active{transform: translateY(1px)}
+    .choice.selected{border-color: rgba(22,163,74,.30); background: rgba(22,163,74,.08); box-shadow: 0 0 0 3px rgba(22,163,74,.12)}
+    .choice .t{font-weight:800}
+    .choice .d{font-size:12px; color:var(--muted); margin-top:4px; line-height:1.3}
+
+    textarea{
+      width:100%; min-height:98px; resize:vertical;
+      border-radius:16px;
+      border:1px solid rgba(15,23,42,.10);
+      background: rgba(255,255,255,.92);
+      color:var(--text);
+      padding:12px 12px;
+      outline:none;
+    }
+    textarea:focus{box-shadow: var(--ring); border-color: rgba(125,211,252,.55)}
+
+    .btnRow{display:flex; gap:10px; flex-wrap:wrap; justify-content:space-between; align-items:center; margin-top:6px}
+    .btns{display:flex; gap:10px; flex-wrap:wrap}
+    button.primary, button.ghost{
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-weight:800;
+      border: 1px solid rgba(15,23,42,.10);
+      cursor:pointer;
+      transition: transform .08s ease, background .15s ease, border-color .15s ease;
+    }
+    button.primary{
+      background: linear-gradient(135deg, rgba(56,189,248,.95), rgba(129,140,248,.90));
+      color:#ffffff;
+      border-color: rgba(15,23,42,.10);
+    }
+    button.primary:hover{filter: brightness(1.03)}
+    button.primary:active{transform: translateY(1px)}
+
+    button.ghost{
+      background: rgba(15,23,42,.03);
+      color: var(--text);
+    }
+    button.ghost:hover{background: rgba(15,23,42,.05)}
+
+    .status{font-family: var(--mono); font-size:12px; color: var(--muted);}
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 6px 10px; border-radius:999px;
+      background: rgba(22,163,74,.10);
+      border:1px solid rgba(22,163,74,.20);
+      color:#166534; font-size:12px; font-weight:800;
+    }
+    .badge.warn{background: rgba(217,119,6,.10); border-color: rgba(217,119,6,.22); color:#92400e}
+    .badge.bad{background: rgba(225,29,72,.10); border-color: rgba(225,29,72,.22); color:#9f1239}
+
+    .quizQ{padding:12px; border-radius:16px; border:1px solid rgba(15,23,42,.10); background: rgba(15,23,42,.02)}
+    .quizQ .q{font-weight:900}
+    .opts{display:grid; gap:8px; margin-top:10px}
+    .opt{
+      padding:10px 10px; border-radius:14px;
+      border:1px solid rgba(15,23,42,.10);
+      background: rgba(255,255,255,.92);
+      cursor:pointer;
+    }
+    .opt:hover{background: rgba(125,211,252,.12)}
+    .opt.selected{border-color: rgba(125,211,252,.55); background: rgba(125,211,252,.18); box-shadow: 0 0 0 3px rgba(125,211,252,.18)}
+
+    .toast{
+      position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+      padding: 12px 14px; border-radius: 16px;
+      background: rgba(255,255,255,.92);
+      border:1px solid rgba(15,23,42,.10);
+      box-shadow: var(--shadow);
+      display:flex; gap:10px; align-items:flex-start;
+      max-width: min(760px, calc(100% - 24px));
+      opacity:0; pointer-events:none;
+      transition: opacity .2s ease, transform .2s ease;
+      z-index:50;
+    }
+    .toast.show{opacity:1; pointer-events:auto; transform: translateX(-50%) translateY(-6px)}
+    .toast .emoji{font-size:18px}
+    .toast .msg{font-size:13px; color:var(--text); line-height:1.35}
+    .toast .msg small{display:block; margin-top:4px; color:var(--muted)}
+
+    @media print{
+      header, .side, .btnRow, .toast{display:none !important}
+      body{background:#fff; color:#111}
+      .card{box-shadow:none; border:1px solid #ddd}
+      .panel{background:#fff}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"><span>✨</span></div>
+        <div>
+          <h1>Interactive Agent Guide to Elevating Service Delivery</h1>
+          <div class="sub">Calm • Clarity • Connection</div>
+        </div>
+      </div>
+      <div class="progressRow" aria-label="Progress">
+        <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="fill"></div></div>
+        <div class="pct">0%</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="grid">
+
+      <aside class="side">
+        <div class="card">
+          <div class="pad">
+            <div class="tag">🧭 Your Path</div>
+            <div class="nav" id="nav"></div>
+            <p class="mini">Take the quick quiz at the end of each segment to unlock the next one.</p>
+            <div class="btnRow" style="margin-top:12px">
+              <div class="btns">
+                <button class="ghost" id="btnStartOver" title="Reset progress and start from the beginning">↩ Start over</button>
+                <button class="ghost" id="btnPrint" title="Print this page (quizzes hidden on print)">🖨 Print</button>
+              </div>
+              <div class="status" id="saveStatus">Auto-saved on this device</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <section class="content card" aria-live="polite">
+        <div class="head">
+          <div>
+            <h2 id="title">Loading…</h2>
+            <p class="kicker" id="kicker"></p>
+          </div>
+          <div class="pillRow" id="pillRow"></div>
+        </div>
+        <div class="section" id="section"></div>
+
+        <div class="pad" style="padding: 0 18px 18px;">
+          <div class="btnRow">
+            <div class="btns">
+              <button class="ghost" id="btnBack">← Back</button>
+              <button class="primary" id="btnNext">Next →</button>
+            </div>
+            <div class="status" id="segmentStatus"></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <div class="emoji" id="toastEmoji">✨</div>
+  <div class="msg" id="toastMsg">Hello</div>
+</div>
+
+<script>
+(() => {
+  const STORAGE_KEY = 'agent_coaching_guide_v1_pastel';
+
+  const segments = [
+    {
+      id: 'intro',
+      title: 'Welcome: Before You Say Hello',
+      kicker: 'A quick orientation so you can engage with confidence and while maintaining balance.',
+      pills: ['Mindset', 'Empathy', 'Clarity'],
+      blocks: [
+        { type: 'callout', title: 'You are the calm in someone\'s storm.', body: 'Members often call during a perfect storm: plans derailed, unexpected costs, and vulnerability. Your role isn\'t just fill-in-the-blanks and Submit. It\'s also helping them to regain some control in difficult circumstances.' },
+        { type: 'panel', title: 'How this guide works', bullets: [
+          'Move through the segments in order.',
+          'Each segment includes a mini-practice + a short quiz to unlock the next.',
+          'Use Start over any time to reset.',
+          'Your progress saves on your computer (local browser storage).'
+        ]},
+        { type: 'reflect', title: '30-second intention', prompt: 'Finish this sentence (for you): “On my next call, I want the member to feel…”', placeholder: '…heard, safe, understood, less alone, confident help is coming…' }
+      ],
+      quiz: { pass: 2, questions: [
+        { q: 'In a roadside-assistance call, your role is only to get a provider on the way.', opts: ['True', 'False'], a: 1, why: 'Dispatch matters, but calm + clarity are part of the service experience.' },
+        { q: 'Progress in this guide is saved…', opts: ['In the cloud', 'Only on this device (local storage)'], a: 1, why: 'This is a standalone HTML; it saves locally in your browser.' }
+      ]}
+    },
+    {
+      id: 'journey',
+      title: "Understanding Your Member’s Journey",
+      kicker: 'What they’re really going through—so your words land as help, not just information.',
+      pills: ['Practical Crisis', 'Emotional Rollercoaster', 'Trust'],
+      blocks: [
+        { type: 'twocol', left: { type:'panel', title:'🚗 The Practical Crisis', bullets:[
+          'Plans are derailed (late for work, missed appointments, kids in the car).',
+          'Unexpected expenses and inconvenience.',
+          'Vulnerability—especially if it’s dark or unfamiliar.'
+        ]}, right: { type:'panel', title:'😰 The Emotional Rollercoaster', bullets:[
+          'Frustration: “Why now?”',
+          'Anxiety: “How long? How much?”',
+          'Helplessness: “I don’t know anything about cars.”',
+          'Embarrassment: “I should have seen this coming.”',
+          'Relief: “Thank goodness I have roadside assistance.”'
+        ]}},
+        { type:'panel', title:'The trust they’re placing in you', bullets:[
+          'They’re sharing information + vulnerability with a stranger.',
+          'They need your to listen without judgment.',
+          'They need to be clear about “what happens next”.',
+          'They need reassurance that help is coming.',
+          'They want to be treated like a person—not a Case number.'
+        ]},
+        { type:'choices', title:'Quick empathy calibrator', prompt:'Pick the situation that would raise your urgency the MOST, then you’ll get a tailored script snippet.',
+          choices:[
+            { key:'kids', t:'Kids in the car', d:'Safety + impatience + anxiety are amplified.' },
+            { key:'dark', t:'Dark / unfamiliar area', d:'Vulnerability and fear are elevated.' },
+            { key:'late', t:'Late for something important', d:'Time pressure increases frustration.' }
+          ],
+          responses:{
+            kids:'Try: “I’m really glad you called. Let’s keep you and the kids safe—help is being arranged now. I’ll walk you through next steps in plain language.”',
+            dark:'Try: “I hear you—being stuck there can feel unsafe. Let’s get help moving quickly. I’ll stay clear and step-by-step with you.”',
+            late:'Try: “I can hear the timing is stressful. I’m going to move fast and keep you updated so you can plan.”'
+          }
+        },
+        { type:'reflect', title:'Micro-skill: Name it before you solve it', prompt:'Write one acknowledgment you can say before troubleshooting.', placeholder:'Example: “That sounds really stressful.”' }
+      ],
+      quiz:{ pass:3, questions:[
+        { q:'When a member says “I don’t know anything about cars,” they usually mean…', opts:['“Please explain simply and don’t judge me.”','“I want you to talk faster.”','“I’m not interested in options.”'], a:0, why:'It’s a request for clarity and psychological safety.' },
+        { q:'A strong first response should include…', opts:['Only technical steps','Acknowledgment + next steps','A lecture about maintenance'], a:1, why:'Acknowledgment reduces stress; next steps restore control.' },
+        { q:'Trust is high on these calls because members share…', opts:['Only their name','personal information and vulnerability','A detailed car history always'], a:1, why:'They share where they are and what’s happening in a vulnerable moment.' }
+      ]}
+    },
+    {
+      id:'psychology',
+      title:'The Psychology Behind the Call',
+      kicker:'Every call feels different—but the needs underneath are surprisingly consistent.',
+      pills:['Read between the lines','Stress signals','Reassurance'],
+      blocks:[
+        { type:'panel', title:'Why each member sounds different', bullets:[
+          'Personality (calm vs. panic-prone).','Life circumstances (school pickup vs. vacation)','Previous experiences (first-time vs. repeat caller)','Communication style (brief vs. detailed)','Stress tolerance (steady vs. overwhelmed)'
+        ]},
+        { type:'panel', title:'Reading between the lines', bullets:[
+          '“Worst possible timing!” → “I’m overwhelmed; reassure me this will resolve quickly.”',
+          '“I don’t know anything about cars.” → “Explain simply; don’t make me feel stupid.”',
+          '“How long is this going to take?” → “Please help me manage my anxiety.”'
+        ]},
+        { type:'choices', title:'Translate the subtext', prompt:'Choose what the member REALLY needs (practice hearing under the words).',
+          choices:[
+            { key:'timing', t:'“Worst possible timing!”', d:'What’s the need underneath?' },
+            { key:'cars', t:'“I don’t know anything about cars.”', d:'What’s the need underneath?' },
+            { key:'howlong', t:'“How long is this going to take?”', d:'What’s the need underneath?' }
+          ],
+          responses:{
+            timing:'Need: reassurance + a fast plan. Try: “I hear you. I’m going to get this moving quickly and keep you updated.”',
+            cars:'Need: psychological safety + simple language. Try: “No worries—I’ll explain in plain terms and handle the technical part.”',
+            howlong:'Need: time expectations to reduce uncertainty. Try: “Great question—here’s what happens next, and I’ll update you if anything changes.”'
+          }
+        },
+        { type:'reflect', title:'Your one-sentence anchor', prompt:'Write a single sentence you can use to stabilize a stressed caller.', placeholder:'Example: “I’m here with you—one step at a time.”' }
+      ],
+      quiz:{ pass:3, questions:[
+        { q:'“How long will this take?” usually signals…', opts:['Curiosity only','A need to plan and manage anxiety','Disrespect'], a:1, why:'Time expectations reduce uncertainty and stress.' },
+        { q:'A key skill is hearing not just words but…', opts:['Silence only','Emotions and unstated needs','Technical details only'], a:1, why:'Subtext guides the reassurance you provide.' },
+        { q:'Matching communication style means you should…', opts:['Use the same script every time','Adjust tone and detail to the caller','Avoid empathy to save time'], a:1, why:'Adaptation builds trust and efficiency.' }
+      ]}
+    },
+    {
+      id:'superpowers',
+      title:'You Have Superpowers',
+      kicker:'You do more than you think—these are real, transferable skills.',
+      pills:['Active Listening','Problem-solving','Communication','EQ','Multitasking'],
+      blocks:[
+        { type:'twocol', left:{ type:'panel', title:'🎯 Active Listening', bullets:['Hear emotions, not just words.','Notice what isn’t being said.','Ask questions that reveal real needs.']},
+          right:{ type:'panel', title:'🧠 Problem-Solving Under Pressure', bullets:['Process complex info quickly.','Navigate procedures efficiently.','Think on your feet when it gets messy.']}},
+        { type:'twocol', left:{ type:'panel', title:'💬 Communication Mastery', bullets:['Translate jargon into plain English.','Adjust style to each caller.','Use your voice to calm and reassure.']},
+          right:{ type:'panel', title:'🤝 Emotional Intelligence', bullets:['Recognize emotional states.','Stay calm when others panic.','Show genuine care for strangers.']}},
+        { type:'panel', title:'⚡ Multitasking Excellence', bullets:['Manage multiple systems while staying present.','Document accurately without losing connection.','Coordinate with dispatch and providers smoothly.']},
+        { type:'callout', title:'These skills matter beyond work.', body:'Active listening, calm problem-solving, and emotional regulation are life skills. You’re building strengths that show up everywhere.' },
+        { type:'reflect', title:'Confidence boost', prompt:'Which superpower do you rely on most—and how does it help callers?', placeholder:'Example: “I summarize what I hear, so they feel understood.”' }
+      ],
+      quiz:{ pass:3, questions:[
+        { q:'Active listening includes…', opts:['Only letting the member talk','Hearing emotions and asking clarifying questions','Interrupting to save time'], a:1, why:'It’s about understanding what’s said and unsaid.' },
+        { q:'Communication mastery means…', opts:['Using technical jargon for accuracy','Translating jargon into plain English','Avoiding updates until the end'], a:1, why:'Plain language reduces anxiety and confusion.' },
+        { q:'Multitasking excellence is…', opts:['Doing everything silently','Managing systems while staying present','Skipping documentation'], a:1, why:'Presence + accuracy builds trust and quality.' }
+      ]}
+    },
+    {
+      id:'connection',
+      title:'Mastering the Art of Connection',
+      kicker:'Your voice is your toolkit: warmth, reassurance, and confident guidance.',
+      pills:['Tone','Word choices','Acknowledgment','Relief moments'],
+      blocks:[
+        { type:'panel', title:'Tone techniques', bullets:[
+          'Warm & welcoming: “Good morning! I’m here to help you today.”',
+          'Calm & reassuring: “I understand this is stressful. Let’s get this sorted out for you.”',
+          'Confident & knowledgeable: “I’ve handled this many times. Here’s what we’ll do…”'
+        ]},
+        { type:'panel', title:'From Barriers to Bridges', bullets:[
+          '“You need to…” → “What I can do for you is…”',
+          '“That’s not covered.” → “Let me explain your options…”',
+          '“Calm down.” → “I can hear how frustrated you are. Let’s work through this together.”'
+        ]},
+        { type:'choices', title:'Rewrite for connection (mini-practice)', prompt:'Choose a phrase to transform.',
+          choices:[
+            { key:'needto', t:'“You need to…”', d:'Swap to supportive agency.' },
+            { key:'notcovered', t:'“That’s not covered.”', d:'Swap to options + dignity.' },
+            { key:'calmdown', t:'“Calm down.”', d:'Swap to acknowledgment + partnership.' }
+          ],
+          responses:{
+            needto:'Upgrade: “What I can do for you is…” (Then give one clear next step.)',
+            notcovered:'Upgrade: “Let me explain your options…” (Then present choices calmly.)',
+            calmdown:'Upgrade: “I can hear how frustrated you are. Let’s work through this together.”'
+          }
+        },
+        { type:'panel', title:'Acknowledgment examples', bullets:[
+          '“That sounds really stressful.”','“I can understand why you’d be concerned.”','“You’re handling this really well considering the circumstances.”'
+        ]},
+        { type:'callout', title:'Create moments of relief', body:'Use true positives: “The good news is help is already on the way.” “You did exactly the right thing by calling.” “Your location is easy for our driver to find.”' },
+        { type:'reflect', title:'Your go-to script', prompt:'Write a 2–3 sentence “calm + plan + relief” script.', placeholder:'Example: “I hear you—this is stressful. I’m arranging help now and I’ll keep you updated. The good news is you did the right thing by calling us.”' }
+      ],
+      quiz:{ pass:3, questions:[
+        { q:'Best replacement for “That’s not covered.”', opts:['“Policy is policy.”','“Let me explain your options…”','“You should have read the contract.”'], a:1, why:'Options language preserves dignity and collaboration.' },
+        { q:'Acknowledgment should happen…', opts:['After dispatch','Before solutions','Only if the caller is calm'], a:1, why:'Naming the feeling reduces intensity and builds trust early.' },
+        { q:'A “moment of relief” is…', opts:['A joke at the caller’s expense','A true positive that reduces stress','Avoiding updates'], a:1, why:'Relief comes from truthful reassurance and clarity.' }
+      ]}
+    },
+    {
+      id:'energy',
+      title:'Protecting Your Mental Energy',
+      kicker:'Care deeply without carrying it all. Here’s how to stay steady.',
+      pills:['Boundaries','Resets','Recharge','Support'],
+      blocks:[
+        { type:'panel', title:'The reality of your role', bullets:[
+          'Hours of other people’s problems flowing into your ears.','Constant emotional labor.','High pressure + metrics + time constraints.','Repetitive stress.','Emotional whiplash between crisis levels.'
+        ]},
+        { type:'twocol', left:{ type:'panel', title:'🌅 Start your day right', bullets:[
+          'Set an intention before the first call.','Remind yourself: “I’m going to make someone’s day better today.”','Three deep breaths; visualize success.'
+        ]}, right:{ type:'panel', title:'⏰ Between-call resets (30 seconds)', bullets:[
+          'Stretch shoulders/neck.','Look away from the screen to something distant.','Mantra: “That call is done. Fresh start.”'
+        ]}},
+        { type:'panel', title:'🛡️ Emotional boundaries', bullets:[
+          'Their emergency is not your emergency.','You can care without crashing.','You’re providing professional help—not adopting problems.'
+        ]},
+        { type:'twocol', left:{ type:'panel', title:'🔄 Mid-day recharge', bullets:[
+          'Step outside on breaks if possible.','Music that lifts your mood.','Connect with a peer who makes you laugh.'
+        ]}, right:{ type:'panel', title:'Weekly mental maintenance', bullets:[
+          'Celebrate wins (save positive feedback).','Process tough calls with support.','Keep perspective: your role matters.'
+        ]}},
+        { type:'panel', title:'Signs you need extra support', bullets:[
+          'Consistently dreading work.','Feeling numb/disconnected.','Taking frustrations personally.','Headaches or sleep problems.','Feeling like you can’t handle one more difficult call.'
+        ]},
+        { type:'callout', title:'Support isn’t weakness—it’s professional self-care.', body:'If patterns show up, reach out (supervisor, EAP, peer support). Protecting your wellbeing protects your performance.' },
+        { type:'reflect', title:'Your personal reset plan', prompt:'Write one If–Then reset plan you’ll actually do.', placeholder:'Example: “If I end a tense call, then I’ll stretch and take 3 slow breaths.”' }
+      ],
+      quiz:{ pass:4, questions:[
+        { q:'“Their emergency is not your emergency” reminds you about…', opts:['Avoiding responsibility','Healthy emotional boundaries','Ignoring the caller'], a:1, why:'You can help without absorbing stress.' },
+        { q:'A good between-call reset takes about…', opts:['30 seconds','15 minutes','It doesn’t matter'], a:0, why:'Short resets are realistic and effective.' },
+        { q:'Celebrating wins helps because it…', opts:['Erases tough calls','Balances negativity bias','Reduces metrics'], a:1, why:'Noticing wins builds resilience.' },
+        { q:'A sign you may need extra support is…', opts:['Feeling happy on weekends','Consistently dreading work','Wanting clear procedures'], a:1, why:'Persistent dread can signal burnout.' }
+      ]}
+    },
+    {
+      id:'finish',
+      title:'Finish: Your One-Minute Coaching Checklist',
+      kicker:'Save this for the start of your shift. You’ve got this.',
+      pills:['Checklist','Encouragement','Next step'],
+      blocks:[
+        { type:'panel', title:'Before the call (5 seconds)', bullets:['Breathe in… and out.','Intention: “I will make this person feel safer.”','Warm tone ready.']},
+        { type:'panel', title:'During the call (connection + clarity)', bullets:['Acknowledge: name the feeling.','Confirm: summarize what you heard.','Explain: plain language + next steps + time expectations.','Reassure: truthful relief moments.','Close: “Is there anything else you need before we disconnect?”']},
+        { type:'panel', title:'After the call (30 seconds)', bullets:['Reset your body (stretch, posture).','Reset your mind (“Fresh start”).','Log one win (even small).']},
+        { type:'callout', title:'Encouragement', body:'This is genuinely challenging work. Every calm, respectful interaction is a small repair to someone’s day.' },
+        { type:'reflect', title:'Your next-step commitment', prompt:'What ONE sentence will you use on your very next call?', placeholder:'Example: “I’m here to help—let’s take this one step at a time.”' }
+      ],
+      quiz:{ pass:2, questions:[
+        { q:'Which sequence best reflects the guide?', opts:['Solve → acknowledge → explain','Acknowledge → explain → reassure','Reassure only → end quickly'], a:1, why:'Acknowledgment builds trust; explanation and reassurance restore control.' },
+        { q:'A realistic after-call reset is…', opts:['A 30-second stretch + “fresh start”','Ignoring your feelings all day','Skipping breaks'], a:0, why:'Short resets help sustain performance.' }
+      ]}
+    }
+  ];
+
+  const defaultState = { current:0, unlocked: segments.map((_,i)=>i===0), passed:{}, notes:{}, choices:{}, quizAnswers:{} };
+
+  const loadState = () => {
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return structuredClone(defaultState);
+      const parsed = JSON.parse(raw);
+      if(!Array.isArray(parsed.unlocked) || parsed.unlocked.length !== segments.length) return structuredClone(defaultState);
+      return { ...structuredClone(defaultState), ...parsed };
+    } catch { return structuredClone(defaultState); }
+  };
+  let state = loadState();
+
+  const navEl = document.getElementById('nav');
+  const titleEl = document.getElementById('title');
+  const kickerEl = document.getElementById('kicker');
+  const pillRowEl = document.getElementById('pillRow');
+  const sectionEl = document.getElementById('section');
+  const btnBack = document.getElementById('btnBack');
+  const btnNext = document.getElementById('btnNext');
+  const btnStartOver = document.getElementById('btnStartOver');
+  const btnPrint = document.getElementById('btnPrint');
+  const segStatus = document.getElementById('segmentStatus');
+  const saveStatus = document.getElementById('saveStatus');
+  const barFill = document.querySelector('.fill');
+  const bar = document.querySelector('.bar');
+  const pctEl = document.querySelector('.pct');
+  const toast = document.getElementById('toast');
+  const toastEmoji = document.getElementById('toastEmoji');
+  const toastMsg = document.getElementById('toastMsg');
+
+  const saveState = () => {
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      saveStatus.textContent = 'Saved ✓';
+      setTimeout(()=> saveStatus.textContent = 'Auto-saved on this device', 900);
+    } catch {
+      saveStatus.textContent = 'Could not save';
+    }
+  };
+
+  function showToast(emoji, msg, sub=''){
+    toastEmoji.textContent = emoji;
+    toastMsg.innerHTML = `${msg}${sub ? `<small>${sub}</small>` : ''}`;
+    toast.classList.add('show');
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(()=> toast.classList.remove('show'), 3200);
+  }
+
+  function progressPct(){
+    const passedCount = Object.keys(state.passed).length;
+    return Math.round((passedCount / (segments.length)) * 100);
+  }
+
+  function updateProgress(){
+    const pct = Math.max(0, Math.min(100, progressPct()));
+    barFill.style.width = pct + '%';
+    bar.setAttribute('aria-valuenow', String(pct));
+    pctEl.textContent = pct + '%';
+  }
+
+  function renderNav(){
+    navEl.innerHTML='';
+    segments.forEach((s, idx)=>{
+      const b = document.createElement('button');
+      const locked = !state.unlocked[idx];
+      b.type='button';
+      b.className = locked ? 'locked' : '';
+      b.setAttribute('aria-current', idx===state.current ? 'true' : 'false');
+      const icon = state.passed[s.id] ? '✅' : (locked ? '🔒' : '➡️');
+      b.innerHTML = `${icon} <strong>${idx+1}. ${s.title}</strong>`;
+      b.addEventListener('click', ()=>{
+        if(locked){ showToast('🔒','This segment is locked.','Pass the quiz in the previous segment to unlock it.'); return; }
+        state.current = idx; saveState(); render();
+      });
+      navEl.appendChild(b);
+    });
+  }
+
+  function el(tag, attrs={}, children=[]){
+    const node = document.createElement(tag);
+    for(const [k,v] of Object.entries(attrs)){
+      if(k==='class') node.className = v;
+      else if(k==='html') node.innerHTML = v;
+      else node.setAttribute(k,v);
+    }
+    (Array.isArray(children)?children:[children]).forEach(ch=>{
+      if(ch==null) return;
+      node.appendChild(typeof ch==='string' ? document.createTextNode(ch) : ch);
+    });
+    return node;
+  }
+
+  function renderBlock(block, seg){
+    if(block.type==='panel'){
+      return el('div',{class:'panel'},[
+        el('h3',{html:block.title}),
+        block.bullets ? el('ul',{class:'list'}, block.bullets.map(t=>el('li',{html:t}))) : null
+      ]);
+    }
+    if(block.type==='callout'){
+      return el('div',{class:'callout'},[
+        el('div',{html:`<strong>${block.title}</strong>`}),
+        el('div',{style:'margin-top:6px; line-height:1.45', html:block.body})
+      ]);
+    }
+    if(block.type==='twocol'){
+      return el('div',{class:'twocol'},[renderBlock(block.left,seg), renderBlock(block.right,seg)]);
+    }
+    if(block.type==='reflect'){
+      const key = `${seg.id}::${block.title}`;
+      const ta = el('textarea',{placeholder:block.placeholder||'', 'aria-label':block.prompt});
+      ta.value = state.notes[key] || '';
+      ta.addEventListener('input', ()=>{ state.notes[key]=ta.value; saveState(); });
+      return el('div',{class:'panel'},[
+        el('h3',{html:`📝 ${block.title}`}),
+        el('div',{style:'color:var(--muted); font-size:13px; margin:-2px 0 10px; line-height:1.4', html:block.prompt}),
+        ta
+      ]);
+    }
+    if(block.type==='choices'){
+      const choiceKey = `${seg.id}::${block.title}`;
+      const selected = state.choices[choiceKey] || null;
+      const responseBox = el('div',{class:'callout', style:'display:none;'});
+      const grid = el('div',{class:'choiceGrid'}, block.choices.map(c=>{
+        const btn = el('button',{class:'choice', type:'button'},[
+          el('div',{class:'t', html:c.t}),
+          el('div',{class:'d', html:c.d})
+        ]);
+        if(selected===c.key) btn.classList.add('selected');
+        btn.addEventListener('click', ()=>{
+          [...grid.querySelectorAll('.choice')].forEach(n=>n.classList.remove('selected'));
+          btn.classList.add('selected');
+          state.choices[choiceKey]=c.key;
+          const msg = block.responses?.[c.key] || 'Nice choice.';
+          responseBox.style.display='block';
+          responseBox.innerHTML = `<strong>Coaching tip</strong><div style="margin-top:6px; line-height:1.45">${msg}</div>`;
+          showToast('✨','Nice.','The best coaching acknowledges feelings and restores control.');
+          saveState();
+        });
+        return btn;
+      }));
+      if(selected && block.responses?.[selected]){
+        responseBox.style.display='block';
+        responseBox.innerHTML = `<strong>Coaching tip</strong><div style="margin-top:6px; line-height:1.45">${block.responses[selected]}</div>`;
+      }
+      return el('div',{class:'panel'},[
+        el('h3',{html:`🎛️ ${block.title}`}),
+        el('div',{style:'color:var(--muted); font-size:13px; margin:-2px 0 12px; line-height:1.4', html:block.prompt}),
+        grid,
+        el('div',{style:'margin-top:12px;'}, responseBox)
+      ]);
+    }
+    return el('div',{class:'panel'},[el('h3',{html:'(Unknown block)'})]);
+  }
+
+  function renderQuiz(seg){
+    const quiz = seg.quiz;
+    const answerKey = `quiz::${seg.id}`;
+    const saved = state.quizAnswers[answerKey] || {};
+
+    const wrap = el('div',{class:'panel'});
+    wrap.appendChild(el('h3',{html:'🧩 Quick Quiz (unlock next segment)'}));
+    wrap.appendChild(el('div',{style:'color:var(--muted); font-size:13px; margin:-2px 0 12px; line-height:1.4', html:`Answer ${quiz.pass} of ${quiz.questions.length} correctly to pass.`}));
+
+    const qs = quiz.questions.map((qq,idx)=>{
+      const qId = `q${idx}`;
+      const qWrap = el('div',{class:'quizQ'});
+      qWrap.appendChild(el('div',{class:'q', html:`${idx+1}. ${qq.q}`}));
+      const opts = el('div',{class:'opts'});
+      qq.opts.forEach((opt,oidx)=>{
+        const b = el('button',{class:'opt', type:'button'},[opt]);
+        if(saved[qId]===oidx) b.classList.add('selected');
+        b.addEventListener('click',()=>{
+          [...opts.querySelectorAll('.opt')].forEach(n=>n.classList.remove('selected'));
+          b.classList.add('selected');
+          saved[qId]=oidx;
+          state.quizAnswers[answerKey]=saved;
+          saveState();
+        });
+        opts.appendChild(b);
+      });
+      qWrap.appendChild(opts);
+      return {qq,qId,idx,qWrap};
+    });
+    qs.forEach(x=>wrap.appendChild(x.qWrap));
+
+    const resultRow = el('div',{style:'margin-top:12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;'});
+    const badge = el('span',{class:'badge warn'},['Not graded']);
+    const expl = el('div',{style:'color:var(--muted); font-size:12px; line-height:1.35; max-width:70ch;'});
+    const gradeBtn = el('button',{class:'primary', type:'button'},['Grade quiz']);
+
+    gradeBtn.addEventListener('click',()=>{
+      let correct=0, answered=0; const feedback=[];
+      qs.forEach(({qq,qId,idx})=>{
+        const ans = saved[qId];
+        if(ans==null) return;
+        answered++;
+        if(ans===qq.a) correct++; else feedback.push(`Q${idx+1}: ${qq.why}`);
+      });
+      if(answered < quiz.questions.length){
+        badge.className='badge warn';
+        badge.textContent=`Answer all questions (${answered}/${quiz.questions.length})`;
+        expl.textContent='Quick guesses are okay—this is practice, not punishment.';
+        showToast('🧠','Almost there.','Answer every question, then grade again.');
+        return;
+      }
+      if(correct >= quiz.pass){
+        badge.className='badge';
+        badge.textContent=`Passed (${correct}/${quiz.questions.length}) ✅`;
+        expl.textContent='Nice work. The next segment is unlocked.';
+        state.passed[seg.id]=true;
+        const nextIdx = state.current+1;
+        if(nextIdx < segments.length) state.unlocked[nextIdx]=true;
+        saveState(); renderNav(); updateProgress();
+        showToast('✅','Quiz passed!','Next segment unlocked.');
+      } else {
+        badge.className='badge bad';
+        badge.textContent=`Not yet (${correct}/${quiz.questions.length})`;
+        expl.innerHTML = feedback.length ? ('Review: ' + feedback.join(' • ')) : 'Try again—small reps build skill.';
+        showToast('💪','Keep going.','Try again—this is how learning sticks.');
+      }
+    });
+
+    if(state.passed[seg.id]){
+      badge.className='badge'; badge.textContent='Passed ✅';
+      expl.textContent='Already passed. You can revisit anytime.';
+    }
+
+    resultRow.appendChild(badge);
+    resultRow.appendChild(el('div',{style:'flex:1'}));
+    resultRow.appendChild(gradeBtn);
+    wrap.appendChild(resultRow);
+    wrap.appendChild(expl);
+    return wrap;
+  }
+
+  function render(){
+    const seg = segments[state.current];
+    titleEl.textContent = seg.title;
+    kickerEl.textContent = seg.kicker;
+
+    pillRowEl.innerHTML='';
+    seg.pills.forEach(p=> pillRowEl.appendChild(el('span',{class:'pill'},[p])));
+
+    sectionEl.innerHTML='';
+    seg.blocks.forEach(b=> sectionEl.appendChild(renderBlock(b, seg)));
+    sectionEl.appendChild(renderQuiz(seg));
+
+    const lockedNext = state.current+1 < segments.length && !state.unlocked[state.current+1];
+    const isLast = state.current===segments.length-1;
+    segStatus.innerHTML = isLast ? 'End of guide 🎉' : (lockedNext ? 'Next segment is locked until you pass the quiz.' : 'Next segment unlocked.');
+
+    btnBack.disabled = state.current===0;
+    btnBack.style.opacity = btnBack.disabled ? .6 : 1;
+
+    btnNext.textContent = isLast ? 'Done ✅' : 'Next →';
+    btnNext.className = isLast ? 'ghost' : 'primary';
+
+    renderNav();
+    updateProgress();
+  }
+
+  function goNext(){
+    if(state.current===segments.length-1){
+      showToast('🎉','You finished the guide!','Use Start over to run it again, or Print for a quick copy.');
+      return;
+    }
+    const nextIdx = state.current+1;
+    if(!state.unlocked[nextIdx]){ showToast('🔒','Next segment is locked.','Pass the quiz on this segment to continue.'); return; }
+    state.current = nextIdx; saveState(); render();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  function goBack(){
+    if(state.current===0) return;
+    state.current -= 1; saveState(); render();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  btnNext.addEventListener('click', goNext);
+  btnBack.addEventListener('click', goBack);
+  btnStartOver.addEventListener('click', ()=>{ state=structuredClone(defaultState); saveState(); render(); window.scrollTo({top:0, behavior:'smooth'}); showToast('↩','Reset complete.','Starting fresh.'); });
+  btnPrint.addEventListener('click', ()=> window.print());
+
+  window.addEventListener('keydown', (e)=>{ if(e.key==='ArrowRight') goNext(); if(e.key==='ArrowLeft') goBack(); });
+
+  render();
+  showToast('👋','Welcome!','This version uses a brighter, pastel professional theme.');
+})();
+</script>
+</body>
+</html>
