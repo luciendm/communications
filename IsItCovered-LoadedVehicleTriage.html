@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Is it Covered: Loaded Vehicle Eligibility Guide</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --primary-blue: #003893;
+  --primary-red: #da291c;
+  --dark-blue: #00225c;
+  --bg-light: #f4f7f9;
+  --white: #ffffff;
+  --text-main: #1f2937;
+  --text-muted: #475569;
+  --border-color: #e2e8f0;
+  --blue-light: #f0f5fa;
+  --green-light: #f0fdf4;
+  --red-light: #fdf2f2;
+  --yellow-light: #fdfbf0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-main);
+  line-height: 1.4;
+}
+
+/* HEADER (COMPACT) */
+header {
+  background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+  color: white;
+  padding: 0.9rem 0;
+  border-bottom: 3px solid var(--primary-red);
+}
+
+.header-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+header h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+header p {
+  font-size: 0.8rem;
+  color: #dbeafe;
+  margin:0;
+  max-width:600px;
+}
+
+/* LAYOUT */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary-blue);
+  margin: 2rem 0 1rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+/* CARDS */
+.card {
+  background: var(--white);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header {
+  padding: 0.6rem 0.9rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: #fafcff;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--dark-blue);
+}
+
+.card-body {
+  padding: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* BLOCKS */
+.block {
+  padding: 0.6rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.question {
+  background: var(--blue-light);
+  border-left: 3px solid var(--primary-blue);
+}
+
+.action {
+  background: var(--green-light);
+  border-left: 3px solid #16a34a;
+}
+
+.stop {
+  background: var(--red-light);
+  border-left: 3px solid var(--primary-red);
+}
+
+.note {
+  background: var(--yellow-light);
+  border: 1px solid #f2e6c2;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* BADGES */
+.badge {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  margin-bottom: 0.2rem;
+}
+
+.b-question { background: #e0edff; color: var(--primary-blue); }
+.b-action { background: #dcfce7; color: #166534; }
+.b-stop { background: #fee2e2; color: #7f1d1d; }
+
+/* ✅ ADDED: SECTION WRAPPER */
+.section-wrapper {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-top: 2rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* ✅ ADDED: ROLE TAG */
+.role-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  margin-left: 0.5rem;
+  background: #fee2e2;
+  color: #7f1d1d;
+}
+
+@media (max-width: 768px) {
+  header h1 { font-size: 1.5rem; }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1>Is it Covered? Loaded Vehicle Call Handling</h1>
+    <p>This reference is designed to help you quickly process loaded vehicle calls by outlining your role in eligibility decisions and providing a clear view of the service provider’s on-scene responsibilities.</p>
+  </div>
+</header>
+
+<div class="container">
+
+<h2 class="section-title">📞 ERS Receive & Dispatch – Load Assessment & Policy Review</h2>
+
+<div class="grid">
+
+  <div class="card">
+    <div class="card-header">Step 1: Coverage</div>
+    <div class="card-body">
+      <div class="block question">
+        <span class="badge b-question">Question</span>
+        <p><strong>Is the vehicle covered?</strong></p>
+      </div>
+      <div class="block note">
+        Confirm active membership and eligible vehicle before discussing load specifics.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">Step 2: Document Load Details</div>
+    <div class="card-body">
+      <div class="block question">
+        <span class="badge b-question">Question</span>
+        <p><strong>What is loaded in the vehicle?</strong><br>Item type, quantity, and approximate size/weight.</p>
+      </div>
+      <div class="block action">
+        <span class="badge b-action">Action</span>
+        Document details clearly in Driver Notes. Capture any statements that indicate size, weight, position of the contents.
+      </div>
+    </div>
+  </div>
+
+<div class="card">
+  <div class="card-header">Step 3: Manage Expectations</div>
+  <div class="card-body">
+    <div class="block action">
+      <span class="badge b-action">Action</span>
+      Complete the service request, per existing protocol.
+      <br><br>
+      If the vehicle is loaded, counsel the member that the service provider will assess upon arrival. Setting clear expectations helps to reduce escalations.
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ✅ WRAPPER START -->
+<div class="section-wrapper">
+
+<h2 class="section-title">
+  🛻 Technician On-Scene Assessment
+  <span class="role-tag">Field Decision</span>
+</h2>
+
+<div class="grid">
+
+  <div class="card">
+    <div class="card-header">Load Assessment</div>
+    <div class="card-body">
+      <div class="block question">
+        <span class="badge b-question">Question</span>
+        <p><strong>Does the load contain excluded items?</strong></p>
+      </div>
+      <div class="block stop">
+        <span class="badge b-stop">Stop</span>
+        The provider will determine if the load contains items that are excluded by Club policy. If so, a COD referral should be offered.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">Safety & Capacity</div>
+    <div class="card-body">
+
+      <div class="block question">
+        <span class="badge b-question">Question</span>
+        <strong>Is the load secured in the vehicle?</strong>
+      </div>
+
+      <div class="block question">
+        <span class="badge b-question">Question</span>
+        <strong>Is the load within weight limits?</strong>
+      </div>
+
+      <div class="block question">
+        <span class="badge b-question">Question</span>
+        <strong>Can the tow truck safely tow it?</strong>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">Coverage Determination</div>
+    <div class="card-body">
+      <div class="block action">
+        <span class="badge b-action">Action</span>
+        If YES to all 3, tow may be completed.
+      </div>
+      <div class="block stop">
+        <span class="badge b-stop">Decline</span>
+        If NO to one or more, decline service and offer COD referral.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+<!-- ✅ WRAPPER END -->
+
+</div>
+
+</body>
+</html>
